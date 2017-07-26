@@ -35,10 +35,10 @@ function BasicTable(props) {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell numeric>Calories</TableCell>
-            <TableCell numeric>Fat (g)</TableCell>
-            <TableCell numeric>Carbs (g)</TableCell>
+            <TableCell>Enzyme Reactivity</TableCell>
+            <TableCell>Expression</TableCell>
+            <TableCell numeric>Occurence</TableCell>
+            <TableCell numeric>Ig Class</TableCell>
             <TableCell numeric>Protein (g)</TableCell>
           </TableRow>
         </TableHead>

@@ -1,9 +1,10 @@
-const antigenlist = {
-    a: {
+const suggestions = [
+    {
+        label: "A",
         name: "A Antigen",
         system: "ABO",
         isbt: "001.001",
-        enzymes: "Resistant",
+        enzymes: "Resistant to all.",
         expression: {
             cord: "Weak",
             altered: "Weak in some variants and diseases"
@@ -24,7 +25,8 @@ const antigenlist = {
         auto: "Rare",
         comments: "Serum from group A patients contains naturally occuring anti-B"
     },
-    b: {
+    {
+        label: "B",
         system: "ABO",
         isbt: "001.002",
         enzymes: "Resistant",
@@ -48,7 +50,8 @@ const antigenlist = {
         auto: "Rare",
         comments: "Serum from group B patients contains naturally occuring anti-A"
     },
-    a1: {
+    {
+        label: "A1",
         system: "ABO",
         isbt: "001.004",
         enzymes: "Resistant",
@@ -69,6 +72,6 @@ const antigenlist = {
         auto: "Rare",
         comments: "Transferase activity in A<sub>1</sub> individuals is 5-10 times higher than A<sub>2</sub> (A<sub>1</sub>-) individauls anti-A1 can be prepared from Dolichos biflorus."
     }
-}
+]
 
-export default antigenlist;
+export default suggestions;

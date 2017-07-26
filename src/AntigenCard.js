@@ -2,11 +2,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import CardTitle from './CardComponents/CardTitle';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import antigenlist from './antigenlist';
+import Divider from 'material-ui/Divider';
 
 const styleSheet = createStyleSheet('SimpleCard', theme => ({
   card: {
@@ -24,33 +25,48 @@ const styleSheet = createStyleSheet('SimpleCard', theme => ({
     fontSize: 14,
     color: theme.palette.text.secondary,
   },
-  pos: {
+  undertitle: {
     marginBottom: 12,
     color: theme.palette.text.secondary,
   },
+  property: {
+    marginTop: 12,
+  }
 }));
+
+
 
 function SimpleCard(props) {
   const classes = props.classes;
-  const antigen = antigenlist[props.selectedAntigen.toLowerCase()];
-    
+  const antigen = props.selectedAntigen;
+  function renderExpression() {
+    return Object.getOwnPropertyNames(antigen.expression).map(property => {
+      return (
+        <span key={property}><b>{property}: </b>{antigen.expression[property]}<br /></span>
+      )
+    });
+  }
+  
+  
   return (
     <div>
       <Card className={classes.card}>
         <CardContent>
-          <Typography type="headline" component="h2">
-            {`${props.selectedAntigen} antigen`}
+          <CardTitle antigen={antigen} />
+          <Typography 
+            align='left' 
+            type="subheading" 
+            className={classes.property}><b>Antigen Expression</b>
           </Typography>
-          <Typography type="body1" className={classes.pos}>
-            {`System: ${antigen.system} | ISBT: ${antigen.isbt}`}
+          <Typography
+            align='left'
+            type="body1" 
+            gutterBottom>{renderExpression()}
           </Typography>
-          <Typography type="body2">
-            Enzymes: <Typography type="body1">{antigen.enzymes}</Typography>
-          </Typography>
-          <Typography component="p">
-            well meaning and kindly.<br />
-            {'"a benevolent smile"'}
-          </Typography>
+          <Divider inset />
+          <Typography type="subheading" className={classes.property}><b>Enzyme Reactions</b></Typography>
+          <Typography type="body1" gutterBottom>{antigen.enzymes}</Typography>
+          <Divider inset />
         </CardContent>
         <CardActions>
           <Button dense>Learn More</Button>

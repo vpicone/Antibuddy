@@ -10,17 +10,19 @@ import { MenuItem } from 'material-ui/Menu';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
+import suggestions from './antigenlist';
 
-const suggestions = [
-  { label: 'A' },
-  { label: 'B' },
-  { label: 'A1' },
-];
+// const suggestions = [
+//   { label: 'A' },
+//   { label: 'B' },
+//   { label: 'A1' },
+// ];
 
 function renderInput(inputProps) {
   const { classes, home, value, ref, ...other } = inputProps;
-
+  
   return (
+    <div>
     <TextField
       autoFocus={home}
       className={classes.textField}
@@ -33,13 +35,14 @@ function renderInput(inputProps) {
         ...other,
       }}
     />
+    </div>
   );
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
   const matches = match(suggestion.label, query);
   const parts = parse(suggestion.label, matches);
-
+  
   return (
     <MenuItem selected={isHighlighted} component="div">
       <div>
@@ -70,6 +73,8 @@ function renderSuggestionsContainer(options) {
 function getSuggestionValue(suggestion) {
   return suggestion.label;
 }
+
+
 
 function getSuggestions(value) {
   const inputValue = value.trim().toLowerCase();
@@ -141,7 +146,6 @@ class IntegrationAutosuggest extends Component {
     this.setState({
       value: newValue,
     });
-    this.props.handleAppChange(event, { newValue });
   };
 
   render() {
@@ -159,6 +163,7 @@ class IntegrationAutosuggest extends Component {
         suggestions={this.state.suggestions}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
+        onSuggestionSelected={this.props.onSuggestionSelected}
         renderSuggestionsContainer={renderSuggestionsContainer}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}

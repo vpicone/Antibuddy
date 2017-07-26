@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AutoSuggest from './AutoSuggest';
-import AntibodyCard from './AntibodyCard';
+import AntigenCard from './AntigenCard';
 import logo from './logo.svg';
 import './App.css';
 
@@ -11,14 +11,14 @@ class App extends Component {
     this.state = {
       selectedAntigen: null,
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
   
-  handleChange = (event, { newValue }) => {
+  onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
     this.setState({
-      selectedAntigen: newValue,
+      selectedAntigen: suggestion,
     });
-  };
+  }
   
   
   
@@ -33,8 +33,8 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <AutoSuggest style={{flex: 1}} handleAppChange={ this.handleChange } />
-        {selectedAntigen ? <AntibodyCard selectedAntigen={selectedAntigen} /> : ''}
+        <AutoSuggest onSuggestionSelected={ this.onSuggestionSelected } />
+        {selectedAntigen ? <AntigenCard selectedAntigen={selectedAntigen} /> : ''}
       </div>
     );
   }
