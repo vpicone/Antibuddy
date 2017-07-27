@@ -12,11 +12,6 @@ import parse from 'autosuggest-highlight/parse';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import suggestions from './antigenlist';
 
-// const suggestions = [
-//   { label: 'A' },
-//   { label: 'B' },
-//   { label: 'A1' },
-// ];
 
 function renderInput(inputProps) {
   const { classes, home, value, ref, ...other } = inputProps;
@@ -98,7 +93,8 @@ function getSuggestions(value) {
 const styleSheet = createStyleSheet('IntegrationAutosuggest', theme => ({
   container: {
     flex: 1,
-    height: 200,
+    height: theme.spacing.unit * 8,
+    maxWidth: 800,
     width: '60%',
     margin: 'auto',
   },
@@ -106,6 +102,7 @@ const styleSheet = createStyleSheet('IntegrationAutosuggest', theme => ({
     position: 'absolute',
     width: '60%',
     margin: 'auto',
+    maxWidth: 800,
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 3,
     left: 0,
@@ -170,7 +167,7 @@ class IntegrationAutosuggest extends Component {
         inputProps={{
           autoFocus: true,
           classes,
-          placeholder: 'Search a country (start with a)',
+          placeholder: 'Enter an antigen/antibody',
           value: this.state.value,
           onChange: this.handleChange,
         }}

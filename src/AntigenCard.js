@@ -3,22 +3,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CardTitle from './CardComponents/CardTitle';
+import BasicProperty from './CardComponents/BasicProperty';
+import Comments from './CardComponents/Comments';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
+
 
 const styleSheet = createStyleSheet('SimpleCard', theme => ({
   card: {
     minWidth: 275,
-    maxWidth: 500,
+    width: "60%",
+    maxWidth: 800,
     margin: 'auto',
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
+    marginBottom: theme.spacing.unit * 5,
   },
   title: {
     marginBottom: 16,
@@ -39,34 +37,16 @@ const styleSheet = createStyleSheet('SimpleCard', theme => ({
 function SimpleCard(props) {
   const classes = props.classes;
   const antigen = props.selectedAntigen;
-  function renderExpression() {
-    return Object.getOwnPropertyNames(antigen.expression).map(property => {
-      return (
-        <span key={property}><b>{property}: </b>{antigen.expression[property]}<br /></span>
-      )
-    });
-  }
-  
   
   return (
     <div>
       <Card className={classes.card}>
         <CardContent>
           <CardTitle antigen={antigen} />
-          <Typography 
-            align='left' 
-            type="subheading" 
-            className={classes.property}><b>Antigen Expression</b>
-          </Typography>
-          <Typography
-            align='left'
-            type="body1" 
-            gutterBottom>{renderExpression()}
-          </Typography>
-          <Divider inset />
-          <Typography type="subheading" className={classes.property}><b>Enzyme Reactions</b></Typography>
-          <Typography type="body1" gutterBottom>{antigen.enzymes}</Typography>
-          <Divider inset />
+          {Object.getOwnPropertyNames(antigen.features).map((prop) => (
+            <BasicProperty key={prop} antigenProperty={prop} propertyData={antigen.features[prop]} />
+          ))}
+          <Comments>{antigen.comments}</Comments>
         </CardContent>
         <CardActions>
           <Button dense>Learn More</Button>
