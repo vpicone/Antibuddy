@@ -3,6 +3,7 @@ import AutoSuggest from './AutoSuggest';
 import AntigenCard from './AntigenCard';
 import logo from './logo.svg';
 import './App.css';
+import fire from './fire'
 
 class App extends Component {
   
@@ -10,6 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       selectedAntigen: null,
+      items:[]
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
@@ -20,6 +22,13 @@ class App extends Component {
     });
   }
   
+  componentWillMount() {
+    let itemRef = fire.database().ref();
+    itemRef.on("child_added", snapshot => {
+      let item = { antigen: snapshot.val(), id: snapshot.key };
+      this.setState({ items: [item].concat(this.state.items) });
+    });
+  }
   
   
   render() {

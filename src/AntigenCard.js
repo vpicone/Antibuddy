@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import CardTitle from './CardComponents/CardTitle';
 import BasicProperty from './CardComponents/BasicProperty';
 import Comments from './CardComponents/Comments';
+import Radar from './CardComponents/Radar';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 
 
@@ -48,6 +49,9 @@ function SimpleCard(props) {
           ))}
           <Comments>{antigen.comments}</Comments>
         </CardContent>
+        <CardMedia>
+          <Radar dataObject={antigen.occurence}/>
+        </CardMedia>
         <CardActions>
           <Button dense>Learn More</Button>
         </CardActions>

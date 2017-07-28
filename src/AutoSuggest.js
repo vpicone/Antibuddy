@@ -12,7 +12,6 @@ import parse from 'autosuggest-highlight/parse';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import suggestions from './antigenlist';
 
-
 function renderInput(inputProps) {
   const { classes, home, value, ref, ...other } = inputProps;
   
@@ -71,7 +70,7 @@ function getSuggestionValue(suggestion) {
 
 
 
-function getSuggestions(value) {
+function getSuggestions(value, fireSuggestions) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
   let count = 0;
