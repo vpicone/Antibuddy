@@ -10,7 +10,6 @@ import { MenuItem } from 'material-ui/Menu';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import suggestions from './antigenlist';
 
 function renderInput(inputProps) {
   const { classes, home, value, ref, ...other } = inputProps;
@@ -18,7 +17,7 @@ function renderInput(inputProps) {
   return (
     <div>
     <TextField
-      autoFocus={home}
+      autoFocus={true}
       className={classes.textField}
       value={value}
       inputRef={ref}
@@ -74,10 +73,10 @@ function getSuggestions(value, fireSuggestions) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
   let count = 0;
-
+  console.log(JSON.stringify(fireSuggestions));
   return inputLength === 0
     ? []
-    : suggestions.filter(suggestion => {
+    : fireSuggestions.filter(suggestion => {
         const keep =
           count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
 
@@ -128,7 +127,7 @@ class IntegrationAutosuggest extends Component {
 
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: getSuggestions(value),
+      suggestions: getSuggestions(value, this.props.fireSuggestions),
     });
   };
 

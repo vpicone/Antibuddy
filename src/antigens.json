@@ -1,5 +1,5 @@
-[
-    {
+{
+    "a":{
         "label": "A",
         "name": "A Antigen",
         "system": "ABO",
@@ -24,7 +24,7 @@
             {"name": "South American", "value": 0.1}
         ]
     },
-    {
+    "b":{
         "label": "B",
         "system": "ABO",
         "isbt": "001.002",
@@ -48,7 +48,7 @@
             {"name": "South American", "value": 0.1}
         ]
     },
-    {
+    "a1":{
         "label": "A1",
         "system": "ABO",
         "isbt": "001.004",
@@ -70,4 +70,4 @@
             {"name": "Asian", "value": 27}
         ]
     }
-]
+}
