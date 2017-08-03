@@ -71,7 +71,6 @@ function getSuggestions(value, fireSuggestions) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
   let count = 0;
-  console.log(JSON.stringify(fireSuggestions));
   return inputLength === 0
     ? []
     : fireSuggestions.filter(suggestion => {
