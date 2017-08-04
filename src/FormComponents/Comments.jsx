@@ -1,29 +1,29 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { withStyles, createStyleSheet } from "material-ui/styles";
-import TextField from "material-ui/TextField";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles, createStyleSheet } from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
 
 const styleSheet = createStyleSheet(theme => ({
   container: {
-    flex: "column",
-    width: "80%"
+    flex: 'column',
+    width: '80%',
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 400
-  }
+    width: 400,
+  },
 }));
 
 class Comments extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comments: ""
+      comments: '',
     };
   }
 
-  handleChangeMultiline = event => {
+  handleChangeMultiline = (event) => {
     this.props.onCommentsChange(event.target.value);
   };
 
@@ -50,7 +50,9 @@ class Comments extends Component {
 }
 
 Comments.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onCommentsChange: PropTypes.Function.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default withStyles(styleSheet)(Comments);
