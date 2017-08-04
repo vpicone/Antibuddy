@@ -38,6 +38,7 @@ const styleSheet = createStyleSheet('AntigenForm', theme => ({
   },
   button: {
     margin: theme.spacing.unit,
+    marginBottom: '5%',
   },
   root: {
     margin: 'auto',

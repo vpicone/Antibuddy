@@ -44,6 +44,31 @@ class Occurences extends Component {
     this.setState({ occurences: initialOccurences });
   };
 
+  renderAddPhenotype = () => {
+    const classes = this.props.classes;
+    return (
+      <div>
+        <div>
+          <h2>Add demographic</h2>
+          <TextField
+            id="newoccurence"
+            label="New occurence"
+            value={this.state.newOccurence}
+            className={classes.textField}
+            onChange={event => this.setState({ newOccurence: event.target.value })}
+            margin="normal"
+          />
+          <Button fab onClick={this.handleNewOccurence} color="primary" className={classes.button}>
+            <AddIcon />
+          </Button>
+        </div>
+        <Button raised style={{ margin: '10px' }} onClick={this.clearOccurences}>
+          Clear extra occurences
+        </Button>
+      </div>
+    );
+  };
+
   render() {
     const classes = this.props.classes;
 
@@ -61,19 +86,7 @@ class Occurences extends Component {
             margin="normal"
           />),
         )}
-        <h2>Add Phenotype Occurence:</h2>
-        <TextField
-          id="newoccurence"
-          label="New occurence"
-          value={this.state.newOccurence}
-          className={classes.textField}
-          onChange={event => this.setState({ newOccurence: event.target.value })}
-          margin="normal"
-        />
-        <Button fab onClick={this.handleNewOccurence} color="primary" className={classes.button}>
-          <AddIcon />
-        </Button>
-        <Button onClick={this.clearOccurences}>Clear Addl Occurences</Button>
+        {this.renderAddPhenotype()}
       </div>
     );
   }

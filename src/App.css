@@ -12,6 +12,7 @@
 }
 
 .App-header {
+  position: relative;
   background-color: #00b8d4;
   height: 160px;
   padding: 20px;
@@ -20,6 +21,13 @@
 
 .App-intro {
   font-size: large;
+  z-index: -1;
+}
+
+.EditIcon {
+  position: relative;
+  bottom: 10%;
+  right: 0;
 }
 
 @keyframes App-logo-spin {

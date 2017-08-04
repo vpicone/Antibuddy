@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { MuiThemeProvider, createMuiTheme, withStyles, createStyleSheet } from 'material-ui/styles';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import IconButton from 'material-ui/IconButton';
+import EditIcon from 'material-ui-icons/ModeEdit';
+import ReplyIcon from 'material-ui-icons/Reply';
 import createPalette from 'material-ui/styles/palette';
 import cyan from 'material-ui/colors/cyan';
 import green from 'material-ui/colors/green';
@@ -24,6 +27,20 @@ const theme = createMuiTheme({
     error: red,
   }),
 });
+
+const styleSheet = createStyleSheet('App', styleTheme => ({
+  'App-header': {
+    position: 'relative',
+    backgroundColor: '#00b8d4',
+    height: '160px',
+    padding: '20px',
+    color: 'white',
+  },
+  Icon: {
+    width: '60',
+    height: '60',
+  },
+}));
 
 class App extends Component {
   constructor(props) {
@@ -52,7 +69,24 @@ class App extends Component {
   render() {
     const selectedAntigen = this.state.selectedAntigen;
     const searchAndView = () =>
-      (<div>
+      (<div style={{ position: 'relative' }}>
+        <Link to="/data">
+          <IconButton
+            style={{
+              position: 'absolute',
+              top: '-55px',
+              right: '10px',
+            }}
+            aria-label="Edit Database"
+          >
+            <EditIcon
+              style={{
+                width: '60px',
+                height: '60px',
+              }}
+            />
+          </IconButton>
+        </Link>
         <AutoSuggest
           fireSuggestions={this.state.antigens}
           onSuggestionSelected={this.onSuggestionSelected}
@@ -60,25 +94,47 @@ class App extends Component {
         {selectedAntigen ? <AntigenCard selectedAntigen /> : ''}
       </div>);
 
+    const dataEntry = () =>
+      (<div style={{ position: 'relative' }}>
+        <Link to="/">
+          <IconButton
+            style={{
+              position: 'absolute',
+              top: '-55px',
+              right: '10px',
+            }}
+            aria-label="Back to antibody viewer"
+          >
+            <ReplyIcon
+              style={{
+                width: '60px',
+                height: '60px',
+              }}
+            />
+          </IconButton>
+        </Link>
+        <AntigenForm />
+      </div>);
+
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="App">
-          <GithubCorner />
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1>Antibuddy</h1>
-          </div>
-          <p className="App-intro">A red blood cell antigen resource.</p>
-          <Router>
+        <Router>
+          <div className="App">
+            <GithubCorner />
+            <div className="App-header">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h2>Antibuddy</h2>
+            </div>
+            <p className="App-intro">A red blood cell antigen resource.</p>
             <div>
               <Route exact path="/" component={searchAndView} />
-              <Route path="/data" component={() => <AntigenForm />} />
+              <Route path="/data" component={dataEntry} />
             </div>
-          </Router>
-        </div>
+          </div>
+        </Router>
       </MuiThemeProvider>
     );
   }
 }
 
-export default App;
+export default withStyles(styleSheet)(App);
