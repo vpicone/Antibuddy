@@ -24,9 +24,7 @@ class Comments extends Component {
   }
 
   handleChangeMultiline = event => {
-    this.setState({
-      comments: event.target.value
-    });
+    this.props.onCommentsChange(event.target.value);
   };
 
   render() {
@@ -34,12 +32,14 @@ class Comments extends Component {
 
     return (
       <div className={classes.container}>
+        <h2>Comments</h2>
         <TextField
+          required
           id="comments"
           label="Comments"
           multiline
           rowsMax="4"
-          value={this.state.comments}
+          value={this.props.value}
           onChange={this.handleChangeMultiline}
           className={classes.textField}
           margin="normal"

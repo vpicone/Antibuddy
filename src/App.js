@@ -9,7 +9,7 @@ import AutoSuggest from "./AutoSuggest";
 import AntigenCard from "./AntigenCard";
 import logo from "./logo.svg";
 import "./App.css";
-import AntibodyForm from "./AntibodyForm";
+import AntigenForm from "./AntigenForm";
 import { Collapse } from "react-collapse";
 import GithubCorner from "./GithubCorner";
 import base from "./base";
@@ -72,7 +72,7 @@ class App extends Component {
                 <AntigenCard selectedAntigen={selectedAntigen} />
               </Collapse>
             : ""}
-          <AntibodyForm />
+          <AntigenForm />
         </div>
       </MuiThemeProvider>
     );

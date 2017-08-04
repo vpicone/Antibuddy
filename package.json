@@ -8,6 +8,7 @@
     "firebase": "^4.2.0",
     "firebaseui": "^2.3.0",
     "material-ui": "^1.0.0-beta.3",
+    "material-ui-icons": "^1.0.0-alpha.19",
     "re-base": "^3.0.3",
     "react": "^15.6.1",
     "react-autosuggest": "^9.3.2",

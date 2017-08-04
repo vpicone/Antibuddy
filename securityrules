@@ -1,0 +1,6 @@
+{
+  "rules": {
+    ".read": "true",
+    ".write": "!data.exists() || !newData.exists() && auth.token.email.matches(/vpicone@gmail.com/)"
+  }
+}
