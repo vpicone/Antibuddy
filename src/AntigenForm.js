@@ -7,6 +7,7 @@ import Button from 'material-ui/Button';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
 import firebase from 'firebase';
 import Features from './FormComponents/Features';
 import Comments from './FormComponents/Comments';
@@ -28,6 +29,7 @@ const styleSheet = createStyleSheet('AntigenForm', theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    marginBottom: '10px',
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -41,6 +43,10 @@ const styleSheet = createStyleSheet('AntigenForm', theme => ({
     margin: 'auto',
     justifyContent: 'center',
     backgroundColor: theme.palette.background.paper,
+    marginBottom: theme.spacing.unit * 10,
+  },
+  paper: {
+    marginBottom: '10px',
   },
 }));
 
@@ -257,52 +263,54 @@ class AntigenForm extends Component {
 
     return (
       <div className={classes.root} style={{ width: 800 }}>
-        <AppBar position="static" color="default">
-          <Tabs
-            index={this.state.index}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            fullWidth
+        <Paper className="paper" elevation={4}>
+          <AppBar position="static" color="default">
+            <Tabs
+              index={this.state.index}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              fullWidth
+            >
+              <Tab label="Core Properties" />
+              <Tab label="Features" />
+              <Tab label="Comments" />
+              <Tab label="Occurences" />
+            </Tabs>
+          </AppBar>
+          <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
+            <TabContainer>
+              <CoreProperties
+                values={coreproperties}
+                onCorePropertyChange={this.onCorePropertyChange}
+              />
+            </TabContainer>
+            <TabContainer>
+              <Features values={features} onFeatureChange={this.onFeatureChange} />
+            </TabContainer>
+            <TabContainer>
+              <Comments value={this.state.comments} onCommentsChange={this.onCommentsChange} />
+            </TabContainer>
+            <TabContainer>
+              <Occurences
+                values={occurences}
+                clearOccurences={this.clearOccurences}
+                addNewOccurence={this.addNewOccurence}
+                onOccurenceChange={this.onOccurenceChange}
+              />
+            </TabContainer>
+          </SwipeableViews>
+          <Button
+            raised
+            disabled={!this.readyForSubmission()}
+            color="primary"
+            onClick={this.handleSubmit}
+            className={classes.button}
           >
-            <Tab label="Core Properties" />
-            <Tab label="Features" />
-            <Tab label="Comments" />
-            <Tab label="Occurences" />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
-          <TabContainer>
-            <CoreProperties
-              values={coreproperties}
-              onCorePropertyChange={this.onCorePropertyChange}
-            />
-          </TabContainer>
-          <TabContainer>
-            <Features values={features} onFeatureChange={this.onFeatureChange} />
-          </TabContainer>
-          <TabContainer>
-            <Comments value={this.state.comments} onCommentsChange={this.onCommentsChange} />
-          </TabContainer>
-          <TabContainer>
-            <Occurences
-              values={occurences}
-              clearOccurences={this.clearOccurences}
-              addNewOccurence={this.addNewOccurence}
-              onOccurenceChange={this.onOccurenceChange}
-            />
-          </TabContainer>
-        </SwipeableViews>
-        <Button
-          raised
-          disabled={!this.readyForSubmission()}
-          color="primary"
-          onClick={this.handleSubmit}
-          className={classes.button}
-        >
-          Submit
-        </Button>
-        {logoutButton}
+            Submit
+          </Button>
+          {logoutButton}
+        </Paper>
       </div>
     );
   }

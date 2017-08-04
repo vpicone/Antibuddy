@@ -51,7 +51,7 @@ class Comments extends Component {
 
 Comments.propTypes = {
   classes: PropTypes.object.isRequired,
-  onCommentsChange: PropTypes.Function.isRequired,
+  onCommentsChange: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
 };
 

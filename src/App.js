@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
-// import Typography from "material-ui/Typography";
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import createPalette from 'material-ui/styles/palette';
 import cyan from 'material-ui/colors/cyan';
 import green from 'material-ui/colors/green';
@@ -51,6 +51,15 @@ class App extends Component {
 
   render() {
     const selectedAntigen = this.state.selectedAntigen;
+    const searchAndView = () =>
+      (<div>
+        <AutoSuggest
+          fireSuggestions={this.state.antigens}
+          onSuggestionSelected={this.onSuggestionSelected}
+        />
+        {selectedAntigen ? <AntigenCard selectedAntigen /> : ''}
+      </div>);
+
     return (
       <MuiThemeProvider theme={theme}>
         <div className="App">
@@ -60,16 +69,12 @@ class App extends Component {
             <h1>Antibuddy</h1>
           </div>
           <p className="App-intro">A red blood cell antigen resource.</p>
-          <AutoSuggest
-            fireSuggestions={this.state.antigens}
-            onSuggestionSelected={this.onSuggestionSelected}
-          />
-          {selectedAntigen
-            ? <Collapse isOpened>
-              <AntigenCard selectedAntigen={selectedAntigen} />
-            </Collapse>
-            : ''}
-          <AntigenForm />
+          <Router>
+            <div>
+              <Route exact path="/" component={searchAndView} />
+              <Route path="/data" component={() => <AntigenForm />} />
+            </div>
+          </Router>
         </div>
       </MuiThemeProvider>
     );
