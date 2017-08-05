@@ -3,8 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import Button from 'material-ui/Button';
+import Card, { CardContent, CardMedia } from 'material-ui/Card';
 import CardTitle from './CardComponents/CardTitle';
 import BasicProperty from './CardComponents/BasicProperty';
 import Comments from './CardComponents/Comments';
@@ -46,7 +45,7 @@ function SimpleCard(props) {
               key={prop}
               antigenProperty={prop}
               propertyData={antigen.features[prop]}
-            />)
+            />),
           )}
           <Comments>
             {antigen.comments}
@@ -55,9 +54,9 @@ function SimpleCard(props) {
         <CardMedia>
           <Radar dataObject={antigen.occurence} />
         </CardMedia>
-        {/*<CardActions>
+        {/* <CardActions>
           <Button dense>Learn More</Button>
-        </CardActions>*/}
+        </CardActions> */}
       </Card>
     </div>
   );

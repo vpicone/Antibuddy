@@ -25,19 +25,16 @@
   },
   "now": {
     "name": "Antibuddy",
-    "alias": [
-      "www.antibuddy.com",
-      "antibuddy.com"
-    ]
+    "alias": ["www.antibuddy.com", "antibuddy.com"]
   },
   "scripts": {
     "start": "react-scripts start",
-    "now-start": "serve -s build",
+    "now-start": "serve -s build && now alias",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "now ./build --cmd 'list ./content -s' && now alias"
+    "deploy": "now ./build --cmd 'list ./content -s'"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^15.1.0",
