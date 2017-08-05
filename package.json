@@ -1,6 +1,6 @@
 {
   "name": "Antibuddy",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "autosuggest-highlight": "^3.1.0",
@@ -25,7 +25,10 @@
   },
   "now": {
     "name": "Antibuddy",
-    "alias": ["www.antibuddy.com", "antibuddy.com"]
+    "alias": [
+      "www.antibuddy.com",
+      "antibuddy.com"
+    ]
   },
   "scripts": {
     "start": "react-scripts start",
