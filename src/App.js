@@ -3,6 +3,7 @@ import { MuiThemeProvider, createMuiTheme, withStyles, createStyleSheet } from '
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import firebase from 'firebase';
 import IconButton from 'material-ui/IconButton';
+import Snackbar from './Snackbar';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import AccountIcon from 'material-ui-icons/AccountCircle';
 import CheckIcon from 'material-ui-icons/CheckCircle';
@@ -50,6 +51,7 @@ class App extends Component {
     super(props);
     this.state = {
       selectedAntigen: null,
+      snackbarOpen: false,
       antigens: [],
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
@@ -66,11 +68,11 @@ class App extends Component {
     });
   }
 
-  onSuggestionSelected(event, {suggestion}) {
+  onSuggestionSelected(event, { suggestion }) {
     console.log(suggestion);
-    this.setState({selectedAntigen: suggestion});
+    this.setState({ selectedAntigen: suggestion });
   }
-  
+
   authHandler(authData, err) {
     if (err) {
       // eslint-disable-next-line no-console
@@ -79,6 +81,7 @@ class App extends Component {
     }
     this.setState({
       uid: authData.user.uid,
+      snackbarOpen: true,
     });
   }
 
@@ -86,42 +89,46 @@ class App extends Component {
     const provider = new firebase.auth.GoogleAuthProvider();
     fire.auth().signInWithPopup(provider).then(this.authHandler);
   }
-  
+
   renderLogin() {
     return (
       <div>
-        <IconButton style={{position:'absolute', top:'20px', left:'20px'}} className="google" onClick={() => this.authenticate()}>
+        <IconButton
+          style={{ position: 'absolute', top: '20px', left: '20px' }}
+          className="google"
+          onClick={() => this.authenticate()}
+        >
           <AccountIcon
-              color="white"
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
+            color="white"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
         </IconButton>
       </div>
     );
   }
-  
+
   renderLoggedIn() {
     return (
       <div>
-        <IconButton style={{position:'absolute', top:'20px', left:'20px'}} className="google">
+        <IconButton style={{ position: 'absolute', top: '20px', left: '20px' }} className="google">
           <CheckIcon
-              color="white"
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
+            color="white"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
         </IconButton>
       </div>
     );
   }
-  
+
   render() {
-    const searchAndView = () => (
-      <div style={{ position: 'relative' }}>
+    const searchAndView = () =>
+      (<div style={{ position: 'relative' }}>
         <Link to="/data">
           <IconButton
             style={{
@@ -140,8 +147,10 @@ class App extends Component {
             />
           </IconButton>
         </Link>
-        {this.state.selectedAntigen ? <AntigenCard selectedAntigen={this.state.selectedAntigen} /> : ''}
-      </div>)
+        {this.state.selectedAntigen
+          ? <AntigenCard selectedAntigen={this.state.selectedAntigen} />
+          : ''}
+      </div>);
 
     const dataEntry = () =>
       (<div style={{ position: 'relative' }}>
@@ -166,31 +175,30 @@ class App extends Component {
         <AntigenForm uid={this.state.uid} />
       </div>);
 
-
     // if (!(this.state.uid === "S26YUuEaLMZW1HMXr92cb2ur6RW2")) {
-    
-      // return (
-      //   <div>
-      //     <h2>Management requires admin priveledges</h2>
-      //     {logoutButton}
-      //   </div>
-      // );
+
+    // return (
+    //   <div>
+    //     <h2>Management requires admin priveledges</h2>
+    //     {logoutButton}
+    //   </div>
+    // );
     // }
-    
+
     return (
       <MuiThemeProvider theme={theme}>
-          <div className="App">
-            <GithubCorner />
-            <div className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h2>Antibuddy</h2>
-            </div>
-            <p className="App-intro">A red blood cell antigen resource.</p>
-            <AutoSuggest
-              fireSuggestions={this.state.antigens}
-              onSuggestionSelected={this.onSuggestionSelected}
-            />
-            <div>
+        <div className="App">
+          <GithubCorner />
+          <div className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h2>Antibuddy</h2>
+          </div>
+          <p className="App-intro">A red blood cell antigen resource.</p>
+          <AutoSuggest
+            fireSuggestions={this.state.antigens}
+            onSuggestionSelected={this.onSuggestionSelected}
+          />
+          <div>
             <Router>
               <div>
                 <Route exact path="/" component={searchAndView} />
@@ -198,8 +206,8 @@ class App extends Component {
               </div>
             </Router>
             {!this.state.uid ? this.renderLogin() : this.renderLoggedIn()}
-            </div>
           </div>
+        </div>
       </MuiThemeProvider>
     );
   }

@@ -33,11 +33,12 @@ function getRadarData(dataObject) {
 class Radar extends React.PureComponent {
   render() {
     defaults.global.defaultFontFamily = 'Roboto';
+    console.log(defaults.global.layout);
     const data = getRadarData(this.props.dataObject);
     return (
       <div>
         <h2>Demographic Data</h2>
-        <ChartRadar options={{ defaultFontFamily: 'Roboto', defaultFontSize: 40 }} data={data} />
+        <ChartRadar data={data} />
       </div>
     );
   }
