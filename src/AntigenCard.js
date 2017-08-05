@@ -55,9 +55,9 @@ function SimpleCard(props) {
         <CardMedia>
           <Radar dataObject={antigen.occurence} />
         </CardMedia>
-        <CardActions>
+        {/*<CardActions>
           <Button dense>Learn More</Button>
-        </CardActions>
+        </CardActions>*/}
       </Card>
     </div>
   );

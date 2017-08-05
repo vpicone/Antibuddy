@@ -23,6 +23,10 @@
     "react-swipeable-views": "^0.12.5",
     "typeface-roboto": "0.0.32"
   },
+  "now": {
+    "name": "Antibuddy",
+    "alias": ["www.antibuddy.com", "antibuddy.com"]
+  },
   "scripts": {
     "start": "react-scripts start",
     "now-start": "serve -s build",
@@ -30,7 +34,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "now ./build --cmd 'list ./content -s'"
+    "deploy": "now ./build --cmd 'list ./content -s' && now alias"
   },
   "devDependencies": {
     "eslint-config-airbnb": "^15.1.0",
