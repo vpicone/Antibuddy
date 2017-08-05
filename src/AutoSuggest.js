@@ -175,8 +175,8 @@ class IntegrationAutosuggest extends Component {
 
 IntegrationAutosuggest.propTypes = {
   classes: PropTypes.object.isRequired,
-  fireSuggestions: PropTypes.Object,
-  onSuggestionSelected: PropTypes.Function,
+  fireSuggestions: PropTypes.array.isRequired,
+  onSuggestionSelected: PropTypes.func.isRequired,
 };
 
 export default withStyles(styleSheet)(IntegrationAutosuggest);

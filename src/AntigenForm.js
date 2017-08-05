@@ -8,12 +8,12 @@ import SwipeableViews from 'react-swipeable-views';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
-import firebase from 'firebase';
 import Features from './FormComponents/Features';
 import Comments from './FormComponents/Comments';
 import CoreProperties from './FormComponents/CoreProperties';
 import Occurences from './FormComponents/Occurences';
 import fire from './fire';
+
 
 const TabContainer = props =>
   (<div style={{ display: 'flex', padding: 24, justifyContent: 'center' }}>
@@ -58,9 +58,18 @@ const initialstate = {
   'Optimal testing technique': '',
   Neutralization: '',
   'Complement binding': '',
-  'Transfusion Reactions': '',
+  'Transfusion reactions': '',
   HDFN: '',
   'Autoantibody formation': '',
+  featureList: ['Enzyme reactivity',
+      'Antigen expression',
+      'Immunoglobulin class',
+      'Optimal testing technique',
+      "Neutralization",
+      'Complement binding',
+      'Transfusion reactions',
+      "HDFN",
+      'Autoantibody formation'],
   Label: '',
   Name: '',
   ISBT: '',
@@ -79,15 +88,15 @@ class AntigenForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      uid: props.uid,
       index: 0,
-      uid: null,
       ...initialstate,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.renderLogin = this.renderLogin.bind(this);
-    this.authHandler = this.authHandler.bind(this);
-    this.authenticate = this.authenticate.bind(this);
-    this.logout = this.logout.bind(this);
+    // this.renderLogin = this.renderLogin.bind(this);
+    // this.authHandler = this.authHandler.bind(this);
+    // this.authenticate = this.authenticate.bind(this);
+    // this.logout = this.logout.bind(this);
   }
 
   onFeatureChange = (feature, value) => {
@@ -115,23 +124,34 @@ class AntigenForm extends Component {
       addedOccurences: initialstate.addedOccurences,
     });
   };
-
-  addNewOccurence = (occurence) => {
-    this.setState(prevState => ({ addedOccurences: prevState.addedOccurences.concat(occurence) }));
-  };
-
-  logout() {
+  
+  logout = () => {
     fire.auth().signOut().then(
       () => {
-        this.clearOccurences();
-        this.setState(Object.assign({}, initialstate));
+        this.setState({uid: null});
       },
       (error) => {
         // eslint-disable-next-line no-console
         console.log(error);
-      },
+      }
     );
   }
+  
+  addNewOccurence = (occurence) => {
+    this.setState(prevState => ({ addedOccurences: prevState.addedOccurences.concat(occurence) }));
+  };
+
+  // logout() {
+  //   fire.auth().signOut().then(
+  //     () => {
+  //       this.setState({uid: null});
+  //     },
+  //     (error) => {
+  //       // eslint-disable-next-line no-console
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 
   handleChange = (event, index) => {
     this.setState({ index });
@@ -141,45 +161,46 @@ class AntigenForm extends Component {
     this.setState({ index });
   };
 
-  authHandler(authData, err) {
-    if (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
-      return;
-    }
-    this.setState({
-      uid: authData.user.uid,
+  // authHandler(authData, err) {
+  //   if (err) {
+  //     // eslint-disable-next-line no-console
+  //     console.log(err);
+  //     return;
+  //   }
+  //   this.setState({
+  //     uid: authData.user.uid,
+  //   });
+  // }
+
+  // authenticate() {
+  //   const provider = new firebase.auth.GoogleAuthProvider();
+  //   fire.auth().signInWithPopup(provider).then(this.authHandler);
+  // }
+
+  formatOccurences = () => {
+    let occurences = [];
+    this.state.occurences.forEach(occurence => {
+      if(this.state[occurence])
+        occurences.push({ name: occurence, value: this.state[occurence] });
     });
+    console.log(occurences);
+    return occurences;
+  }
+  
+  formatFeatures = () => {
+    let features={}
+    this.state.featureList.forEach(feat => {
+      if(this.state[feat]) 
+        features[feat] = this.state[feat]
+    })
+    return features;
   }
 
-  authenticate() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    fire.auth().signInWithPopup(provider).then(this.authHandler);
-  }
-
-  formatOccurences = () =>
-    // TODO ONLY RETURN IF VALUABLE
-    this.state.occurences.map(occurence => ({ name: occurence, value: this.state[occurence] }));
-
-  readyForSubmission = () => true;
-  // Object.getOwnPropertyNames(this.state).every(val => {
-  //   return val;
-  // }) && !!Object.keys(this.state.occurences).length
-  //    && !!Object.keys(this.state.features).length && !!this.state.comments
+  readyForSubmission = () => 
+  [this.state.Label, this.state.Name, this.state.ISBT, this.state.System]
+  .every(req=>req);
 
   async handleSubmit() {
-    // TODO ONLY SET VALUABLE FEATURES
-    const features = {
-      'Enzyme reactivity': this.state['Enzyme reactivity'],
-      'Antigen expression': this.state['Antigen expression'],
-      'Immunoglobulin class': this.state['Immunoglobulin class'],
-      'Optimal testing technique': this.state['Optimal testing technique'],
-      Neutralization: this.state.Neutralization,
-      'Complement binding': this.state['Complement binding'],
-      'Transfusion Reactions': this.state['Transfusion Reactions'],
-      HDFN: this.state.HDFN,
-      'Autoantibody formation': this.state['Autoantibody formation'],
-    };
 
     // send data to basebase
     await fire.database().ref(`antigens/${this.state.Label}`).set({
@@ -187,26 +208,29 @@ class AntigenForm extends Component {
       name: this.state.Name,
       isbt: this.state.ISBT,
       system: this.state.System,
-      occurence: this.formatOccurences() || null,
-      features,
+      occurence: this.formatOccurences(),
+      features: this.formatFeatures(),
       comments: this.state.comments,
+    })
+    
+    //this.clearOccurences();
+    this.setState((prevState) => {
+      return Object.assign(prevState, initialstate);
     });
 
-    this.clearOccurences();
-    this.setState(Object.assign({}, initialstate));
   }
 
-  renderLogin() {
-    return (
-      <div>
-        <h2>Add</h2>
-        <p>Sign in to manage antibodies.</p>
-        <Button className="google" onClick={() => this.authenticate()}>
-          Log In with Google
-        </Button>
-      </div>
-    );
-  }
+  // renderLogin() {
+  //   return (
+  //     <div>
+  //       <h2>Add</h2>
+  //       <p>Sign in to manage antibodies.</p>
+  //       <Button className="google" onClick={() => this.authenticate()}>
+  //         Log In with Google
+  //       </Button>
+  //     </div>
+  //   );
+  // }
 
   render() {
     const classes = this.props.classes;
@@ -225,7 +249,7 @@ class AntigenForm extends Component {
       'Optimal testing technique': this.state['Optimal testing technique'],
       Neutralization: this.state.Neutralization,
       'Complement binding': this.state['Complement binding'],
-      'Transfusion Reactions': this.state['Transfusion Reactions'],
+      'Transfusion reactions': this.state['Transfusion reactions'],
       HDFN: this.state.HDFN,
       'Autoantibody formation': this.state['Autoantibody formation'],
     };
@@ -244,7 +268,7 @@ class AntigenForm extends Component {
       </Button>
     );
 
-    // check for login
+    // //check for login
     // if (!this.state.uid) {
     //   return (
     //     <div>

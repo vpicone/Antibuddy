@@ -49,10 +49,9 @@ class Occurences extends Component {
     return (
       <div>
         <div>
-          <h2>Add demographic</h2>
           <TextField
             id="newoccurence"
-            label="New occurence"
+            label="New demographic"
             value={this.state.newOccurence}
             className={classes.textField}
             onChange={event => this.setState({ newOccurence: event.target.value })}

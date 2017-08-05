@@ -15,7 +15,7 @@ function getRadarData(dataObject) {
     labels,
     datasets: [
       {
-        label: 'Antigen Prevelance (%)',
+        label: 'Antigen Prevalence (%)',
         backgroundColor: 'rgba(255,99,132,0.2)',
         borderColor: 'rgba(255,99,132,1)',
         pointBackgroundColor: 'rgba(255,99,132,1)',
@@ -44,7 +44,7 @@ class Radar extends React.PureComponent {
 }
 
 Radar.propTypes = {
-  dataObject: PropTypes.object.isRequired,
+  dataObject: PropTypes.array.isRequired,
 };
 
 export default Radar;

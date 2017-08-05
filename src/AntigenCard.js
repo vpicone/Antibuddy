@@ -46,7 +46,7 @@ function SimpleCard(props) {
               key={prop}
               antigenProperty={prop}
               propertyData={antigen.features[prop]}
-            />),
+            />)
           )}
           <Comments>
             {antigen.comments}
