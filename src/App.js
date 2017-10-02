@@ -3,7 +3,6 @@ import { MuiThemeProvider, createMuiTheme, withStyles, createStyleSheet } from '
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import firebase from 'firebase';
 import IconButton from 'material-ui/IconButton';
-import Snackbar from './Snackbar';
 import EditIcon from 'material-ui-icons/ModeEdit';
 import AccountIcon from 'material-ui-icons/AccountCircle';
 import CheckIcon from 'material-ui-icons/CheckCircle';
@@ -69,7 +68,6 @@ class App extends Component {
   }
 
   onSuggestionSelected(event, { suggestion }) {
-    console.log(suggestion);
     this.setState({ selectedAntigen: suggestion });
   }
 
@@ -87,7 +85,10 @@ class App extends Component {
 
   authenticate() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    fire.auth().signInWithPopup(provider).then(this.authHandler);
+    fire
+      .auth()
+      .signInWithPopup(provider)
+      .then(this.authHandler);
   }
 
   renderLogin() {
@@ -127,8 +128,8 @@ class App extends Component {
   }
 
   render() {
-    const searchAndView = () =>
-      (<div style={{ position: 'relative' }}>
+    const searchAndView = () => (
+      <div style={{ position: 'relative' }}>
         <Link to="/data">
           <IconButton
             style={{
@@ -141,19 +142,24 @@ class App extends Component {
             <EditIcon
               color="white"
               style={{
-                width: '60px',
-                height: '60px',
+                position: 'absolute',
+                top: '-30px',
+                width: '50px',
+                height: '50px',
               }}
             />
           </IconButton>
         </Link>
-        {this.state.selectedAntigen
-          ? <AntigenCard selectedAntigen={this.state.selectedAntigen} />
-          : ''}
-      </div>);
+        {this.state.selectedAntigen ? (
+          <AntigenCard selectedAntigen={this.state.selectedAntigen} />
+        ) : (
+          ''
+        )}
+      </div>
+    );
 
-    const dataEntry = () =>
-      (<div style={{ position: 'relative' }}>
+    const dataEntry = () => (
+      <div style={{ position: 'relative' }}>
         <Link to="/">
           <IconButton
             style={{
@@ -173,17 +179,8 @@ class App extends Component {
           </IconButton>
         </Link>
         <AntigenForm uid={this.state.uid} />
-      </div>);
-
-    // if (!(this.state.uid === "S26YUuEaLMZW1HMXr92cb2ur6RW2")) {
-
-    // return (
-    //   <div>
-    //     <h2>Management requires admin priveledges</h2>
-    //     {logoutButton}
-    //   </div>
-    // );
-    // }
+      </div>
+    );
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -192,6 +189,7 @@ class App extends Component {
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <h2>Antibuddy</h2>
+            <p>Data entry in progress... Try searching 'A' or 'B' for examples.</p>
           </div>
           <p className="App-intro">A red blood cell antigen resource.</p>
           <AutoSuggest
