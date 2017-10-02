@@ -11,6 +11,8 @@ import Radar from './CardComponents/Radar';
 
 const styleSheet = createStyleSheet('SimpleCard', theme => ({
   card: {
+    position: 'relative',
+    top: '50px',
     minWidth: 275,
     width: '60%',
     maxWidth: 800,
@@ -40,16 +42,14 @@ function SimpleCard(props) {
       <Card className={classes.card}>
         <CardContent>
           <CardTitle antigen={antigen} />
-          {Object.getOwnPropertyNames(antigen.features).map(prop =>
-            (<BasicProperty
+          {Object.getOwnPropertyNames(antigen.features).map(prop => (
+            <BasicProperty
               key={prop}
               antigenProperty={prop}
               propertyData={antigen.features[prop]}
-            />),
-          )}
-          <Comments>
-            {antigen.comments}
-          </Comments>
+            />
+          ))}
+          <Comments>{antigen.comments}</Comments>
         </CardContent>
         <CardMedia>
           <Radar dataObject={antigen.occurence} />
